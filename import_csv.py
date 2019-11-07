@@ -5,3 +5,4 @@ with open("home/HOME.csv", mode="r") as csv_file:
 
     for row in csv_reader:
         print(row)
+
