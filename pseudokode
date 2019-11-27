@@ -1,0 +1,309 @@
+Pseudokode - Lineær Regression
+
+Indholdsfortegnelse:
+1. Udregn kontantpris
+2. Boligtype definition
+3. Samling af usorterede hældninger
+4. Standardiserede hældninger
+5. Hældningen
+6. Standardisering
+7. Standardafvigelse
+8. Aritmetisk middelværdi
+9. Residual
+10. Standardiseret skæring
+11. Skæring med y-aksen
+12. Find_max
+
+-----------Udregn kontantpris-----------
+
+print("""
+Hvilen ejendomstype er din bolig?
+1: Ejerlejlighed
+2: Rækkehus
+3: Villa1
+4: Villa2
+""")
+boligtype_tal = input("Indtast tallet for din boligtype: ")
+boligtype = boligtype_define(boligtype_tal)
+
+int(alder) = input("Indtast din boligs alder: ")
+int(liggetid) = input("Indtast liggetiden for din bolig: ")
+int(grundareal) = input("Indtast grundarealet for din bolig: ")
+int(boligareal) = input("Indtast boligarealet for din bolig: ")
+
+bolig_konstanter = {}
+variabler (størst til mindst) = []
+
+# TODO: hente lister fra residual og gemme på form:
+  dict = {Ejerlejlighed: {a_1_max: tal, b_1: tal, a_2_max: tal, b_2: tal ....}, ...}
+
+kontantpris = bolig_konstanter[a_1_max] * variabler[0] + bolig_konstanter[b_1]
+  + bolig_konstanter[a_2_max] * variabler[1] + bolig_konstanter[b_2]
+  + bolig_konstanter[a_3_max] * variabler[2] + bolig_konstanter[b_3]
+  + bolig_konstanter[a_4_max] * variabler[3] + bolig_konstanter[b_4]
+
+print(kontantpris)
+
+
+
+-----------DEFINITION AF BOLIGTYPE-----------
+
+def boligtype_define(boligtype_tal):
+  if boligtype_tal == 1:
+    boligtype = "Ejerlejlighed"
+  elif boligtype_tal == 2:
+    boligtype = "Rækkehus"
+  elif boligtype_tal == 3:
+    boligtype = "Villa1"
+  else:
+    boligtype = "Villa2"
+
+return boligtype
+
+
+[-----------SAMLING AF USORTEREDE HÆLDNINGER-----------]
+
+Input: Rå data
+
+Opdel efter ejendomstype:
+dataframe_dict = {"Ejerlejlighed": Ejerlejlighed_dataframe,
+                  "Rækkehus": Rækkehus_dataframe,
+                  "Villa1": Villa1_dataframe,
+                  "Villa2": Villa2_dataframe}
+
+hældningsdict = {}
+for keys in dataframe_dict:
+  hældningsdict[key] = standardiserede_hældninger(dataframe_dict[key])
+
+return hældningsdict
+
+Output: En dictionary bestående af usorterede lister af hældninger
+        hældningsdict = {Ejerlejlighed: {Liggetid: tal, Grundareal: tal, ....}, Rækkehus: {Liggetid: tal, ....}, ....}
+
+
+
+[-----------STANDARDISEREDE HÆLDNINGER-----------]
+
+Input: Dataframe af variabler (opdelt efter ejendomstype)
+
+standardiserede_hældninger(dataframe):
+
+  hældningsdict = {}
+
+  Opdel dataframe i to lister, første liste og resten:
+  første_dict = {} # kontantpris eller et nyt y
+  resten = {} # resterende variabler i dataframe
+
+  loop_level = 0
+  while loop_level < len(dataframe)
+    variabler = list(dataframe.columns.values)
+    if loop_level == 0:
+      første_dict[variabler[loop_level]] = dataframe[variabler[loop_level]]
+    else:
+      resten[variabler[loop_level]] = dataframe[variabler[loop_level]]
+    loop_level += 1
+
+  for key in resten.keys():
+    liste_NA = første_dict[y].values() + resten[key].values()
+    omform liste_NA til dataframe
+    Fjern NA fra liste_NA
+
+    Opdel liste_NA i to lister:
+    første_liste_ny = liste_NA["y"]
+    resten_ny = liste_NA[key]
+
+    hældning = hældningen(resten_ny, første_liste_ny)
+    hældningsdict[key] = hældning
+
+  return standardisering(hældningsliste)
+
+Output: Dictionary af standardiserede hældninger
+        hældningsdict = {Liggetid: tal, Grundareal: tal, ....}
+
+
+
+[-----------HÆLDNING-----------]
+
+Input: To lister
+
+hældningen(liste1, liste2):
+
+  liste_sq = []
+  for loop liste1:
+    liste_sq.append(liste1[x]^2)
+
+  return (len(liste1) * sum(liste1, liste2)) - (sum(liste1) * sum(liste2)) / ((len(liste1) * sum(liste_sq)) - (liste1)^2)
+
+Output: Hældningen (et tal)
+
+
+
+[-----------STANDARDISERING-----------]
+
+Input: Usorteret dictionary
+
+standardisering(hældningsdict):
+
+  SD_plus, _ = standardafvigelse(hældningsdict.values())
+  standardiseret_hældningsdict = {}
+
+  for key in hældningsdict.keys():
+    standardiseret_hældningsdict[key] = (hældningsdict[key] - aritmetisk_middelværdi(hældningsdict.values()))/(SD_plus)
+
+  return standardiseret_hældningsdict
+
+Output: Standardiseret hældningsdictionary
+        standardiseret_hældningsdict = {Liggetid: tal, Grundareal: tal, ....}
+
+
+
+[-----------STANDARDAFVIGELSE-----------]
+
+Input: Liste af hældninger
+
+standardafvigelse(hældningliste):
+
+  SD_plus = kvadratrod(sum(abs(hældningsliste - aritmetisk_middelværdi(hældningsliste))/len(hældningliste))
+  SD_minus = (-SD_plus)
+
+  return SD_plus, SD_minus
+
+Output: Standardafvigelse (et positivt og et negativt tal)
+
+
+
+[-----------ARITMETISK MIDDELVÆRDI-----------]
+
+Input: Usorteret liste af hældninger
+
+aritmetisk_middelværdi(hældningsliste):
+
+  return sum(hældningsliste))/(len(hældningsliste)
+
+Output: Middelværdi (et tal)
+
+
+
+[-----------RESIDUAL-----------]
+
+Input: Dictionary med hældninger
+
+residual(dataframe, hældningsdict, niveau): # niveau starter fra 1
+
+  name_a = "a_" + str(niveau)
+  name_a_max = "a_" + str(niveau) + "_max"
+  name_b = "b_" + str(niveau)
+
+  bolig_konstanter = {}
+  a_lister = {}
+
+  variabler = []
+  for key in hældningsdict.keys():
+    variabler.append(key)
+
+  a_max, a_max_variabel = find_max(hældningsdict)
+  variabler.remove(a_max_variabel)
+  # TODO: standardisere y-aksen
+
+  b = standardiseret_skæring(dataframe, variabler, a_max_variabel)
+
+  bolig_konstanter[name_a] = a_max_variabel
+  bolig_konstanter[name_a_max] = a_max
+  bolig_konstanter[name_b] = b
+
+  linje_liste = []
+  for element in dataframe[a_max_variabel]:
+    linje_liste.append(a_max * element + b)
+
+  a_lister[name_a] = linje_liste
+
+  y_2_liste = []
+  loop_level = 0
+  for element in dataframe["y"]:
+    y_2_liste.append(element - linje_liste[loop_level])
+    loop_level += 1
+
+  dataframe2 = y_2_liste, dataframe.loc[variabler]
+  hældninger2 = standardiseret_hældninger(dataframe2)
+  niveau2 = niveau + 1
+
+  if len(variabler) >= 1:
+    bolig_konstanter2, a_lister2 = residual(dataframe2, hældninger2, niveau2)
+    bolig_konstanter.update(bolig_konstanter2)
+    a_lister.update(a_lister2)
+
+  if niveau == 1:
+    last_residual = dataframe["y"]
+    residual = []
+    for list in a_lister:
+      loop_level = 0
+      for element in list:
+        residual.append(last_residual - element)
+        loop_level += 1
+      last_residual = residual
+      residual = []
+
+    bolig_konstanter["residual": last_residual]
+
+  return bolig_konstanter, a_lister
+
+Output: Residualet i forhold til det største element i hver liste
+
+residual = y - y_est
+y_est = a * x + b
+-y_est = -(a * x + b) = -a * x - b
+
+      resdiual[0] = dataframe[Pris] - (a_1_max * dataframe[a_1_max_variabel] + b1)
+      residual[1] = residual[0] - (a_2_max * dataframe[a_2_max_variabel] + b2)
+      residual[2] = resdiual[1] - (a_3_max * dataframe[a_3_max_variabel] + b3)
+      resdiual[3] = residual[2] - (a_4_max * dataframe[a_4_max_variabel] + b4)
+
+[-----------STANDARDISEREDE SKÆRRING-----------]
+
+Input: Dataframe af variabler
+
+standardiseret_skæring(dataframe, variabler, a_max_variabel):
+
+  skæringsdict = {"b": skæringen(dataframe["y"], dataframe[a_max_variabel])}
+
+  for i in range(len(variabler)):
+    skæringsdict["b{}".format(i+2)] = skæringen(dataframe["y"], dataframe[variabler[i]])
+
+  standardiserede_skæringer = standardisering(skæringsdict)
+
+  return standardiserede_skæringer["b"]
+
+Output: Standardiseret skæring med y-aksen for a_max_variabel (et tal)
+
+
+
+[-----------SKÆRRING MED Y-AKSEN-----------]
+
+Input: To lister
+
+skæringen(liste1, liste2):
+
+  liste_sq = []
+  for loop liste1:
+    liste_sq.append(liste1[x]^2)
+
+  return (((sum(liste2) * sum(liste_sq)) - sum(liste1)) * (sum(liste1 * liste2))) / ((len(liste1) * sum(liste_sq)) - sum(liste1)^2)
+
+Output: Skæring med y-aksen (et tal)
+
+
+
+[-----------FIND MAX-----------]
+
+Input: En dictionary med hældninger
+
+find_max(hældningsdict):
+  a_max = 0
+  for key in hældningsdict.keys():
+    if abs(hældningsdict[key]) > a_max:
+      a_max_variabel = key
+      a_max = abs(hældningsdict[key])
+
+  return a_max, a_max_variabel
+
+Output: a_max og a_max_variabel

@@ -1,0 +1,45 @@
+- Hældningen[]
+--- Find hældninger[]
+
+-------------------------------------
+
+- Endeligt resultat
+--- Håndtere input
+--- Udregn resultat
+
+- Samling af usorterede hældninger
+--- Opdele datasæt i ejendomstyper
+--- Find hældninger
+
+- Standardiserede hældninger
+--- Opdel datasæt i to datasæt
+--- Fjern NA
+--- Find hældninger
+
+- Standardisering
+--- Udregn standardisering
+
+- Standardafvigelse
+--- Udregn standardafvigelsen
+
+- Aritmetisk middelværdi
+--- Udregn gennemsnittet
+
+- Residual
+--- Find maksimale hældning
+--- Find standardiseret_skæring
+--- Find y^
+--- Lav et nyt y
+--- Find residualer rekursivt
+--- Sammel boligkonstanter
+--- Sammel a_lister
+
+- Standardiseret skæring
+--- Udregn skæringer
+--- Fin a_max skæring
+
+- Skæring med y-aksen
+--- Udregn skæring
+
+- Find_max
+--- Find maksimale hældning
