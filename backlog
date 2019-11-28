@@ -1,5 +1,8 @@
-- Hældningen[]
---- Find hældninger[]
+- Hældningen[x]
+--- Find hældninger[x]
+
+- Aritmetisk middelværdi
+--- Udregn gennemsnittet
 
 -------------------------------------
 
@@ -21,9 +24,6 @@
 
 - Standardafvigelse
 --- Udregn standardafvigelsen
-
-- Aritmetisk middelværdi
---- Udregn gennemsnittet
 
 - Residual
 --- Find maksimale hældning
