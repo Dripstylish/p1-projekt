@@ -3,15 +3,18 @@
 
 - Aritmetisk middelværdi[x]
 --- Udregn gennemsnittet[x]
+--- Test med skæring[]
 
 - Standardafvigelse[x]
 --- Udregn standardafvigelsen[x]
+--- Test med skæring[]
 
 - Standardisering[x]
 --- Udregn standardisering[x]
+--- Test med skæring[]
 
-- Find_max[]
---- Find maksimale hældning[]
+- Find_max[x]
+--- Find maksimale hældning[x]
 
 -------------------------------------
 

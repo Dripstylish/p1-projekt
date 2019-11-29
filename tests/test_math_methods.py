@@ -21,7 +21,7 @@ liggetid_dataframe = subset.loc[:, "Liggetid"]
 
 class TestSlope(unittest.TestCase):
 
-    def test_slopes(self):
+    def test_find_slopes(self):
         slope1 = mm.slope(alder_dataframe, kontantpris_dataframe)
         self.assertEqual(-34344, math.ceil(slope1))
 
@@ -46,7 +46,7 @@ class TestMean(unittest.TestCase):
 
 class TestStandardDeviation(unittest.TestCase):
 
-    def test_deviations(self):
+    def test_find_deviations(self):
         slope_list = [mm.slope(alder_dataframe, kontantpris_dataframe),
                       mm.slope(grundareal_dataframe, kontantpris_dataframe),
                       mm.slope(boligareal_dataframe, kontantpris_dataframe),
@@ -58,7 +58,7 @@ class TestStandardDeviation(unittest.TestCase):
 
 class TestStandardisation(unittest.TestCase):
 
-    def test_standardisation(self):
+    def test_find_standardisation(self):
         dataframe_slopes = pd.DataFrame([mm.slope(alder_dataframe, kontantpris_dataframe),
                                         mm.slope(grundareal_dataframe, kontantpris_dataframe),
                                         mm.slope(boligareal_dataframe, kontantpris_dataframe),
@@ -70,6 +70,20 @@ class TestStandardisation(unittest.TestCase):
         self.assertEqual(39, round(dataframe_standardised_slopes.at["Grundareal", "Hældninger"]))
         self.assertEqual(184, round(dataframe_standardised_slopes.at["Boligareal", "Hældninger"]))
         self.assertEqual(19, round(dataframe_standardised_slopes.at["Liggetid", "Hældninger"]))
+
+class TestFindMax(unittest.TestCase):
+
+    def test_find_maximum_standardised_slope(self):
+        dataframe_slopes = pd.DataFrame([mm.slope(alder_dataframe, kontantpris_dataframe),
+                                         mm.slope(grundareal_dataframe, kontantpris_dataframe),
+                                         mm.slope(boligareal_dataframe, kontantpris_dataframe),
+                                         mm.slope(liggetid_dataframe, kontantpris_dataframe)],
+                                        ["Alder", "Grundareal", "Boligareal", "Liggetid"],
+                                        ["Hældninger"])
+        dataframe_standardised_slopes = mm.standardisation(dataframe_slopes)
+        a_max, a_max_variable = mm.find_max(dataframe_standardised_slopes)
+        self.assertEqual(-242, round(a_max))
+        self.assertEqual("Alder", a_max_variable)
 
 
 if __name__ == '__main__':

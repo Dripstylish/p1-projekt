@@ -22,7 +22,7 @@ def slope(dataframe1, dataframe2):
     Finds the slope between two dataframes.
     :param dataframe1: variable x
     :param dataframe2: variable y
-    :return: slope
+    :return: slope as float
     """
     power = dataframe1.pow(2)
     mul = dataframe1.mul(dataframe2)
@@ -45,7 +45,7 @@ def mean(list):
     """
     Finds the mean value of a list.
     :param list: A list of slopes or intersections
-    :return: mean value
+    :return: mean value as float
     """
     return sum(list) / len(list)
 
@@ -67,7 +67,7 @@ def standard_deviation(list):
     """
     Finds the standard deviation of a list.
     :param list: A list of slopes or intersections
-    :return: standard deviation
+    :return: standard deviation as float
     """
     values = []
     for item in list:
@@ -94,7 +94,35 @@ Output: Standardiseret hældningsdictionary
 """
 
 def standardisation(dataframe):
+    """
+    Standardises the values from a dataframe
+    :param dataframe: A dataframe of slopes or intersections
+    :return: Standardised values in a dataframe
+    """
     std_dev, _ = standard_deviation(dataframe.values)
     dataframe_sub = dataframe.sub(mean(dataframe.values))
     dataframe_div = dataframe_sub.div(std_dev)
     return dataframe_div
+
+
+"""
+Input: En dictionary med hældninger
+
+find_max(hældningsdict):
+  a_max = 0
+  for key in hældningsdict.keys():
+    if abs(hældningsdict[key]) > a_max:
+      a_max_variabel = key
+      a_max = abs(hældningsdict[key])
+
+  return a_max, a_max_variabel
+
+Output: a_max og a_max_variabel
+"""
+
+def find_max(dataframe):
+    abs = dataframe.abs()
+    locate = dataframe.loc[abs.idxmax(), "Hældninger"]
+    a_max_variable = locate.index[0]
+    a_max = dataframe.at[a_max_variable, "Hældninger"]
+    return a_max, a_max_variable
