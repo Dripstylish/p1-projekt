@@ -1,4 +1,7 @@
 import unittest
+import math
+import pandas as pd
+
 import calculate_price as cp
 import math_methods as mm
 
@@ -16,34 +19,57 @@ grundareal_dataframe = subset.loc[:, "Grundareal"]
 boligareal_dataframe = subset.loc[:, "Boligareal"]
 liggetid_dataframe = subset.loc[:, "Liggetid"]
 
-def test_haeldning():
-    haeldning1 = mm.haeldning(alder_dataframe, kontantpris_dataframe)
-    if -34344 == round(haeldning1):
-        print("test_healdning:", True)
-    else:
-        print("test_healdning:", False)
+class TestSlope(unittest.TestCase):
 
-test_haeldning()
+    def test_slopes(self):
+        slope1 = mm.slope(alder_dataframe, kontantpris_dataframe)
+        self.assertEqual(-34344, math.ceil(slope1))
 
-class TestHaeldning(unittest.TestCase):
+        slope2 = mm.slope(grundareal_dataframe, kontantpris_dataframe)
+        self.assertEqual(-436, math.ceil(slope2))
 
-    def test_haeldning(self):
-        haeldning1 = mm.haeldning(alder_dataframe, kontantpris_dataframe)
-        self.assertEqual(-34344, round(haeldning1))
+        slope3 = mm.slope(boligareal_dataframe, kontantpris_dataframe)
+        self.assertEqual(17132, math.ceil(slope3))
 
-        haeldning2 = mm.haeldning(grundareal_dataframe, kontantpris_dataframe)
-        self.assertEqual(-436, round(haeldning2))
+        slope4 = mm.slope(liggetid_dataframe, kontantpris_dataframe)
+        self.assertEqual(-2767, math.ceil(slope4))
 
-        haeldning3 = mm.haeldning(boligareal_dataframe, kontantpris_dataframe)
-        self.assertEqual(17131, round(haeldning3))
+class TestMean(unittest.TestCase):
 
-        haeldning4 = mm.haeldning(liggetid_dataframe, kontantpris_dataframe)
-        self.assertEqual(-2767, round(haeldning4))
+    def test_find_mean_value(self):
+        slope_list = [mm.slope(alder_dataframe, kontantpris_dataframe),
+                  mm.slope(grundareal_dataframe, kontantpris_dataframe),
+                  mm.slope(boligareal_dataframe, kontantpris_dataframe),
+                  mm.slope(liggetid_dataframe, kontantpris_dataframe)]
+        mean = mm.mean(slope_list)
+        self.assertEqual(-5104, math.ceil(mean))
 
-class TestAritmetiskMiddelvaerdi(unittest.TestCase):
+class TestStandardDeviation(unittest.TestCase):
 
-    def test_middelvaerdi(self):
-        self.assertTrue(False)
+    def test_deviations(self):
+        slope_list = [mm.slope(alder_dataframe, kontantpris_dataframe),
+                      mm.slope(grundareal_dataframe, kontantpris_dataframe),
+                      mm.slope(boligareal_dataframe, kontantpris_dataframe),
+                      mm.slope(liggetid_dataframe, kontantpris_dataframe)]
+
+        deviation, deviantion_minus = mm.standard_deviation(slope_list)
+        self.assertEqual(121, math.ceil(deviation))
+        self.assertEqual(-121, math.floor(deviantion_minus))
+
+class TestStandardisation(unittest.TestCase):
+
+    def test_standardisation(self):
+        dataframe_slopes = pd.DataFrame([mm.slope(alder_dataframe, kontantpris_dataframe),
+                                        mm.slope(grundareal_dataframe, kontantpris_dataframe),
+                                        mm.slope(boligareal_dataframe, kontantpris_dataframe),
+                                        mm.slope(liggetid_dataframe, kontantpris_dataframe)],
+                                        ["Alder", "Grundareal", "Boligareal", "Liggetid"],
+                                        ["Hældninger"])
+        dataframe_standardised_slopes = mm.standardisation(dataframe_slopes)
+        self.assertEqual(-242, round(dataframe_standardised_slopes.at["Alder", "Hældninger"]))
+        self.assertEqual(39, round(dataframe_standardised_slopes.at["Grundareal", "Hældninger"]))
+        self.assertEqual(184, round(dataframe_standardised_slopes.at["Boligareal", "Hældninger"]))
+        self.assertEqual(19, round(dataframe_standardised_slopes.at["Liggetid", "Hældninger"]))
 
 
 if __name__ == '__main__':

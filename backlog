@@ -1,8 +1,17 @@
 - Hældningen[x]
 --- Find hældninger[x]
 
-- Aritmetisk middelværdi
---- Udregn gennemsnittet
+- Aritmetisk middelværdi[x]
+--- Udregn gennemsnittet[x]
+
+- Standardafvigelse[x]
+--- Udregn standardafvigelsen[x]
+
+- Standardisering[x]
+--- Udregn standardisering[x]
+
+- Find_max[]
+--- Find maksimale hældning[]
 
 -------------------------------------
 
@@ -18,12 +27,6 @@
 --- Opdel datasæt i to datasæt
 --- Fjern NA
 --- Find hældninger
-
-- Standardisering
---- Udregn standardisering
-
-- Standardafvigelse
---- Udregn standardafvigelsen
 
 - Residual
 --- Find maksimale hældning
@@ -41,5 +44,3 @@
 - Skæring med y-aksen
 --- Udregn skæring
 
-- Find_max
---- Find maksimale hældning
