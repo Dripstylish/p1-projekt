@@ -172,6 +172,13 @@ Output: Standardiseret skæring med y-aksen for a_max_variabel (et tal)
 """
 
 def standardisation_intersection(dataframe, variables, a_max_variable):
+    """
+    Standardises the values from a dataframe of intersections.
+    :param dataframe: a dataframe containing all data
+    :param variables: a list of variables
+    :param a_max_variable: the maximum variable
+    :return: standardised intersection values in a dataframe
+    """
     dataframe_intersections = pd.DataFrame([intersection(dataframe[a_max_variable], dataframe["Kontantpris"])], [a_max_variable], ["Skæringer"])
 
     for variable in variables:
