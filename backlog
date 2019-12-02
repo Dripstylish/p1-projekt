@@ -1,20 +1,34 @@
 - Hældningen[x]
---- Find hældninger[x]
+--- Test at hældningerne er rigtige[x]
 
 - Aritmetisk middelværdi[x]
---- Udregn gennemsnittet[x]
+--- Test at middelværdien er rigtig[x]
 --- Test med skæring[]
 
 - Standardafvigelse[x]
---- Udregn standardafvigelsen[x]
+--- Test at standardafvigelsen er rigtig[x]
 --- Test med skæring[]
 
 - Standardisering[x]
---- Udregn standardisering[x]
---- Test med skæring[]
+--- Test at hældningerne er standardiseret rigtigt[x]
 
 - Find_max[x]
---- Find maksimale hældning[x]
+--- Test at den finder den rigtige maks værdi og den rigtige tilhørende variabel[x]
+
+- Skæring med y-aksen[x]
+--- Test skæringen er rigtig[x]
+
+- Standardiseret skæring[x]
+--- Test at skæringerne er standardiseret rigtigt[x]
+
+- Residual[]
+--- Test at den finder det rigtige y_2[]
+--- Test at den finder det rigtige nye maksimum i anden kørsel rekursivt[]
+--- Test at den finder det rigtige nye maksimum i tredje kørsel rekursivt[]
+--- Test at den finder det rigtige nye maksimum i fjerde kørsel rekursivt[]
+--- Test at a_lister er rigtig[]
+--- Test at residual er rigtig[]
+--- Test at bolig_konstanter er rigtig[]
 
 -------------------------------------
 
@@ -30,20 +44,4 @@
 --- Opdel datasæt i to datasæt
 --- Fjern NA
 --- Find hældninger
-
-- Residual
---- Find maksimale hældning
---- Find standardiseret_skæring
---- Find y^
---- Lav et nyt y
---- Find residualer rekursivt
---- Sammel boligkonstanter
---- Sammel a_lister
-
-- Standardiseret skæring
---- Udregn skæringer
---- Fin a_max skæring
-
-- Skæring med y-aksen
---- Udregn skæring
 

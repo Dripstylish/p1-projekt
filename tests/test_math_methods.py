@@ -58,7 +58,7 @@ class TestStandardDeviation(unittest.TestCase):
 
 class TestStandardisation(unittest.TestCase):
 
-    def test_find_standardisation(self):
+    def test_find_standardisation_of_slope(self):
         dataframe_slopes = pd.DataFrame([mm.slope(alder_dataframe, kontantpris_dataframe),
                                         mm.slope(grundareal_dataframe, kontantpris_dataframe),
                                         mm.slope(boligareal_dataframe, kontantpris_dataframe),
@@ -85,6 +85,49 @@ class TestFindMax(unittest.TestCase):
         self.assertEqual(-242, round(a_max))
         self.assertEqual("Alder", a_max_variable)
 
+class TestIntersection(unittest.TestCase):
+
+    def test_find_intersection(self):
+        intersection1 = mm.intersection(alder_dataframe, kontantpris_dataframe)
+        self.assertEqual(3517271, round(intersection1))
+
+        intersection2 = mm.intersection(grundareal_dataframe, kontantpris_dataframe)
+        self.assertEqual(2784178, round(intersection2))
+
+        intersection3 = mm.intersection(boligareal_dataframe, kontantpris_dataframe)
+        self.assertEqual(-103905, round(intersection3))
+
+        intersection4 = mm.intersection(liggetid_dataframe, kontantpris_dataframe)
+        self.assertEqual(2649012, round(intersection4))
+
+class TestResidual(unittest.TestCase):
+
+    def test_find_new_y(self):
+        dataframe_slopes = pd.DataFrame([mm.slope(alder_dataframe, kontantpris_dataframe),
+                                         mm.slope(grundareal_dataframe, kontantpris_dataframe),
+                                         mm.slope(boligareal_dataframe, kontantpris_dataframe),
+                                         mm.slope(liggetid_dataframe, kontantpris_dataframe)],
+                                        ["Alder", "Grundareal", "Boligareal", "Liggetid"],
+                                        ["Hældninger"])
+        dataframe_standardised_slopes = mm.standardisation(dataframe_slopes)
+
+        _, a_lister = mm.residual(subset, dataframe_standardised_slopes)
+        a_1 = pd.DataFrame(data=[496120, 856525, 3334427, 1944584, 3693787, 4501447, 791845, 1283702, 3693787, 2219185],
+                           columns=["a_1"])
+
+        self.assertTrue(a_1.equals(a_lister["a_1"]))
+
+class TestStandardisationIntersection(unittest.TestCase):
+
+    def test_find_standardisation_of_intersection(self):
+        dataframe_standardised_intersections = mm.standardisation_intersection(subset,
+                                                                               ['Grundareal', 'Boligareal', 'Liggetid'],
+                                                                               "Alder")
+        dataframe_standardised_intersections_correct = pd.DataFrame([1213.0, 532.0, -2152.0, 406.0], ["Alder", "Grundareal", "Boligareal", "Liggetid"], ["Skæringer"])
+        print(dataframe_standardised_intersections_correct)
+        print(dataframe_standardised_intersections.round())
+
+        self.assertTrue(dataframe_standardised_intersections_correct.equals(dataframe_standardised_intersections.round()))
 
 if __name__ == '__main__':
     unittest.main()
