@@ -137,6 +137,5 @@ class TestResidual(unittest.TestCase):
         a_1 = pd.DataFrame(data=[-11120.0, -6525.0, -9427.0, -19584.0, 1213.0, -1447.0, -11845.0, -8702.0, 1213.0, -9185.0],
                            columns=["Alder"])
         test = a_1.loc[:, "Alder"]
-
         self.assertTrue(test.equals(a_lister["a_1"].round()))
 
