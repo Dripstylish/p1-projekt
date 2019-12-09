@@ -79,11 +79,15 @@ def standardised_intersection(dataframe, variables, a_max_variable):
     """
     dataframe_intersections = pd.DataFrame([intersection(dataframe[a_max_variable], dataframe["Kontantpris"])], [a_max_variable], ["Skæringer"])
 
-    for variable in variables:
-        dataframe_intersections.loc[variable] = intersection(dataframe[variable], dataframe["Kontantpris"])
-        dataframe_intersections_standardised = standardisation(dataframe_intersections)
-
-    return dataframe_intersections_standardised.at[a_max_variable, "Skæringer"]
+    if not len(variables) <= 0:
+        print("her")
+        for variable in variables:
+            dataframe_intersections.loc[variable] = intersection(dataframe[variable], dataframe["Kontantpris"])
+            dataframe_intersections_standardised = standardisation(dataframe_intersections)
+        return dataframe_intersections_standardised.at[a_max_variable, "Skæringer"]
+    else:
+        print("her2")
+        return dataframe_intersections.at[a_max_variable, "Skæringer"]
 
 def standardised_slopes(dataframe, variables):
     """
@@ -205,11 +209,24 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
     new_slopes = standardised_slopes(dataframe2, variables)
     niveau2 = niveau + 1
 
-    if len(variables) <= 1:
+    if len(variables) >= 1:
         final_variables_dict2, a_dataframes2 = residual(dataframe2, new_slopes, niveau2)
         final_variables_dict.update(final_variables_dict2)
         a_dataframes.update(a_dataframes2)
 
+        print(a_dataframes)
+        print(final_variables_dict)
 
+        if niveau == 1:
+            last_residual = dataframe["Kontantpris"]
+            for a_dataframe in a_dataframes:
+                print(a_dataframe)
+                new_residual = last_residual - a_dataframe
+                last_residual = new_residual
+
+            final_variables_dict["residual"] = last_residual
+
+            print(a_dataframes)
+            print(final_variables_dict)
 
     return final_variables_dict, a_dataframes
