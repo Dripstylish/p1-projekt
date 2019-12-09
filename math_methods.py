@@ -110,71 +110,14 @@ def standardised_slopes(dataframe, variables):
     else:
         return dataframe
 
-"""
-Input: Dictionary med hældninger
-
-residual(dataframe, hældningsdict, niveau): # niveau starter fra 1
-
-  name_a = "a_" + str(niveau)
-  name_a_max = "a_" + str(niveau) + "_max"
-  name_b = "b_" + str(niveau)
-
-  bolig_konstanter = {}
-  a_lister = {}
-
-  variabler = []
-  for key in hældningsdict.keys():
-    variabler.append(key)
-
-  a_max, a_max_variabel = find_max(hældningsdict)
-  variabler.remove(a_max_variabel)
-
-  b = standardiseret_skæring(dataframe, variabler, a_max_variabel)
-
-  bolig_konstanter[name_a] = a_max_variabel
-  bolig_konstanter[name_a_max] = a_max
-  bolig_konstanter[name_b] = b
-
-  linje_liste = []
-  for element in dataframe[a_max_variabel]:
-    linje_liste.append(a_max * element + b)
-
-  a_lister[name_a] = linje_liste
-
-  y_2_liste = []
-  loop_level = 0
-  for element in dataframe["y"]:
-    y_2_liste.append(element - linje_liste[loop_level])
-    loop_level += 1
-
-  dataframe2 = y_2_liste, dataframe.loc[variabler]
-  hældninger2 = standardiseret_hældninger(dataframe2)
-  niveau2 = niveau + 1
-
-  if len(variabler) >= 1:
-    bolig_konstanter2, a_lister2 = residual(dataframe2, hældninger2, niveau2)
-    bolig_konstanter.update(bolig_konstanter2)
-    a_lister.update(a_lister2)
-
-  if niveau == 1:
-    last_residual = dataframe["y"]
-    residual = []
-    for list in a_lister:
-      loop_level = 0
-      for element in list:
-        residual.append(last_residual - element)
-        loop_level += 1
-      last_residual = residual
-      residual = []
-
-    bolig_konstanter["residual": last_residual]
-
-  return bolig_konstanter, a_lister
-
-Output: Residualet i forhold til det største element i hver liste
-"""
-
 def residual(dataframe, dataframe_slopes, niveau = 1):
+    """
+    Find the residual and other important information
+    :param dataframe: a dataframe containing all data
+    :param dataframe_slopes: a dataframe of slopes
+    :param niveau: counter for how many times the function has run (default is 1)
+    :return: a dict of dataframes and a dict of information including the residual
+    """
     name_a = "a_" + str(niveau)
     name_a_max = "a_" + str(niveau) + "_max"
     name_b = "b_" + str(niveau)
