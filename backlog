@@ -22,13 +22,18 @@
 --- Test at skæringerne er standardiseret rigtigt[x]
 
 - Residual[]
---- Test at den finder det rigtige y_2[]
---- Test at den finder det rigtige nye maksimum i anden kørsel rekursivt[]
---- Test at den finder det rigtige nye maksimum i tredje kørsel rekursivt[]
---- Test at den finder det rigtige nye maksimum i fjerde kørsel rekursivt[]
+--- Test at den finder det rigtige a_1[]
+--- Test at den finder det rigtige nye maksimum i anden kørsel rekursivt[x]
+--- Test at den finder det rigtige nye maksimum i tredje kørsel rekursivt[x]
+--- Test at den finder det rigtige nye maksimum i fjerde kørsel rekursivt[x]
 --- Test at a_lister er rigtig[]
 --- Test at residual er rigtig[]
 --- Test at bolig_konstanter er rigtig[]
+
+- Standardiserede hældninger[]
+--- Opdel datasæt i to datasæt[x]
+--- Fjern NA[]
+--- Find hældninger[x]
 
 -------------------------------------
 
@@ -38,10 +43,5 @@
 
 - Samling af usorterede hældninger
 --- Opdele datasæt i ejendomstyper
---- Find hældninger
-
-- Standardiserede hældninger
---- Opdel datasæt i to datasæt
---- Fjern NA
 --- Find hældninger
 

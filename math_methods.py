@@ -69,6 +69,45 @@ def intersection(dataframe1, dataframe2):
     n = len(dataframe1)
     return float(((dataframe2.sum() * power.sum()) - (dataframe1.sum()) * mul.sum())/((n * power.sum()) - (dataframe1.sum()**2)))
 
+def standardised_intersection(dataframe, variables, a_max_variable):
+    """
+    Standardises the values from a dataframe of intersections.
+    :param dataframe: a dataframe containing all data
+    :param variables: a list of variables
+    :param a_max_variable: the maximum variable
+    :return: standardised intersection values in a dataframe
+    """
+    dataframe_intersections = pd.DataFrame([intersection(dataframe[a_max_variable], dataframe["Kontantpris"])], [a_max_variable], ["Skæringer"])
+
+    for variable in variables:
+        dataframe_intersections.loc[variable] = intersection(dataframe[variable], dataframe["Kontantpris"])
+        dataframe_intersections_standardised = standardisation(dataframe_intersections)
+
+    return dataframe_intersections_standardised.at[a_max_variable, "Skæringer"]
+
+def standardised_slopes(dataframe, variables):
+    """
+    Finds the slopes of a dataframe and standardises them
+    :param dataframe: a dataframe containing all data
+    :param variables: a list of variables
+    :return: standardised slope values in a dataframe
+    """
+    subset_price = dataframe.loc[:, "Kontantpris"]
+    subset_variables = dataframe.loc[:, variables]
+
+    #TODO: remove NA
+
+    slopes = []
+    for key in subset_variables.columns:
+        slopes.append(slope(subset_variables.loc[:, key], subset_price))
+
+    dataframe = pd.DataFrame(slopes, variables, ["Hældninger"])
+
+    if not len(variables) <= 1:
+        return standardisation(dataframe)
+    else:
+        return dataframe
+
 """
 Input: Dictionary med hældninger
 
@@ -133,55 +172,44 @@ residual(dataframe, hældningsdict, niveau): # niveau starter fra 1
 Output: Residualet i forhold til det største element i hver liste
 """
 
-def residual(dataframe, hældningsdataframe, niveau = 1):
+def residual(dataframe, dataframe_slopes, niveau = 1):
     name_a = "a_" + str(niveau)
     name_a_max = "a_" + str(niveau) + "_max"
     name_b = "b_" + str(niveau)
 
-    bolig_konstanter = {}
-    a_lister = {}
+    final_variables_dict = {}
+    a_dataframes = {}
 
-    variabler = []
-    for key in hældningsdataframe.index:
-        variabler.append(key)
+    variables = []
+    for key in dataframe_slopes.index:
+        variables.append(key)
 
-    a_max, a_max_variabel = find_max(hældningsdataframe)
-    variabler.remove(a_max_variabel)
+    a_max, a_max_variabel = find_max(dataframe_slopes)
+    variables.remove(a_max_variabel)
 
-    b = standardisation_intersection(dataframe, variabler, a_max_variabel)
+    b = standardised_intersection(dataframe, variables, a_max_variabel)
 
-    return 1, {"a_1": 2}
+    final_variables_dict[name_a] = a_max_variabel
+    final_variables_dict[name_a_max] = a_max
+    final_variables_dict[name_b] = b
+
+    dataframe_a = dataframe.loc[:, a_max_variabel]
+    dataframe_a = dataframe_a.mul(a_max)
+    dataframe_a = dataframe_a.add(b)
+
+    a_dataframes[name_a] = dataframe_a
+
+    dataframe_y2 = pd.DataFrame(data=dataframe.loc[:, "Kontantpris"].sub(dataframe_a), columns=["Kontantpris"])
+    dataframe2 = pd.concat([dataframe_y2, dataframe.loc[:, variables]], axis=1, sort=False)
+
+    new_slopes = standardised_slopes(dataframe2, variables)
+    niveau2 = niveau + 1
+
+    if len(variables) <= 1:
+        final_variables_dict2, a_dataframes2 = residual(dataframe2, new_slopes, niveau2)
+        final_variables_dict.update(final_variables_dict2)
+        a_dataframes.update(a_dataframes2)
 
 
 
-"""
-Input: Dataframe af variabler
-
-standardiseret_skæring(dataframe, variabler, a_max_variabel):
-
-  skæringsdict = {"b": skæringen(dataframe["y"], dataframe[a_max_variabel])}
-
-  for i in range(len(variabler)):
-    skæringsdict["b{}".format(i+2)] = skæringen(dataframe["y"], dataframe[variabler[i]])
-
-  standardiserede_skæringer = standardisering(skæringsdict)
-
-  return standardiserede_skæringer["b"]
-
-Output: Standardiseret skæring med y-aksen for a_max_variabel (et tal)
-"""
-
-def standardisation_intersection(dataframe, variables, a_max_variable):
-    """
-    Standardises the values from a dataframe of intersections.
-    :param dataframe: a dataframe containing all data
-    :param variables: a list of variables
-    :param a_max_variable: the maximum variable
-    :return: standardised intersection values in a dataframe
-    """
-    dataframe_intersections = pd.DataFrame([intersection(dataframe[a_max_variable], dataframe["Kontantpris"])], [a_max_variable], ["Skæringer"])
-
-    for variable in variables:
-        dataframe_intersections.loc[variable] = intersection(dataframe[variable], dataframe["Kontantpris"])
-
-    return standardisation(dataframe_intersections)
+    return final_variables_dict, a_dataframes
