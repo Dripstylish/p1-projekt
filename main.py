@@ -1,8 +1,6 @@
 import calculate_price as cp
 import math_methods as mm
 
-# df.loc[df["Boligtype"] == "Ejerlejlighed"]
-
 # import csv file
 csv_file = cp.import_csv_file()
 
@@ -14,6 +12,7 @@ subset_ejer = subset.loc[subset["EjdType"] == "Ejerlejlighed"]
 subset_ejer = subset_ejer.dropna()
 subset_ejer = subset_ejer.drop("EjdType", axis=1)
 subset_ejer_uden_grundareal = subset_ejer.drop("Grundareal", axis=1)
+variables_uden = ["Alder", "Boligareal", "Liggetid"]
 
 subset_rakke = subset.loc[subset["EjdType"] == "Raekkehus"]
 subset_rakke = subset_rakke.dropna()
@@ -32,7 +31,7 @@ slopes_ejer = mm.standardised_slopes(subset_ejer, variables)
 slopes_rakke = mm.standardised_slopes(subset_rakke, variables)
 slopes_villa1 = mm.standardised_slopes(subset_villa1, variables)
 slopes_villa2 = mm.standardised_slopes(subset_villa2, variables)
-slopes_ejer_uden = mm.standardised_slopes(subset_ejer_uden_grundareal, variables)
+slopes_ejer_uden = mm.standardised_slopes(subset_ejer_uden_grundareal, variables_uden)
 
 # find residual
 constants_ejer, a_dataframes_ejer = mm.residual(subset_ejer, slopes_ejer)
@@ -41,31 +40,45 @@ constants_villa1, a_dataframes_villa1 = mm.residual(subset_villa1, slopes_villa1
 constants_villa2, a_dataframes_villa2 = mm.residual(subset_villa2, slopes_villa2)
 constants_ejer_uden, a_dataframes_ejer_uden = mm.residual(subset_ejer_uden_grundareal, slopes_ejer_uden)
 
-def boligtype_define(boligtype_tal):
-    if boligtype_tal == 1:
-        boligtype = "Ejerlejlighed"
-    elif boligtype_tal == 2:
-        boligtype = "Rækkehus"
-    elif boligtype_tal == 3:
-        boligtype = "Villa1"
-    else:
-        boligtype = "Villa2"
-
-    return boligtype
-
 while True:
-    print("""1: Ejerlejlighed
-    2: Rækkehus
-    3. Villa1
-    4. Villa2""")
-    property_nr = input("Indtast tallet for din boligtype: ")
-    boligtype = boligtype_define(property_nr)
+    #print("Boligtyper:\n1: Ejerlejlighed\n2: Rækkehus\n3. Villa1\n4. Villa2")
+    #property_nr = int(input("Indtast tallet for din boligtype: "))
+    property_nr = 1
 
-    alder = float(input("Indtast din boligs alder: "))
-    liggetid = float(input("Indtast liggetiden for din bolig: "))
-    grundareal = float(input("Indtast grundarealet for din bolig: "))
-    boligareal = float(input("Indtast boligarealet for din bolig: "))
+    # Define property
+    if property_nr == 1:
+        property_type = "Ejerlejlighed"
+        constants = constants_ejer
+        a_dataframes = a_dataframes_ejer
+    elif property_nr == 2:
+        property_type = "Rækkehus"
+        constants_ejer_uden = constants_rakke
+        a_dataframes = a_dataframes_rakke
+    elif property_nr == 3:
+        property_type = "Villa1"
+        constants = constants_villa1
+        a_dataframes = a_dataframes_villa1
+    else:
+        property_type = "Villa2"
+        constants = constants_villa2
+        a_dataframes = a_dataframes_villa2
 
+    #alder = float(input("Indtast din boligs alder: "))
+    #liggetid = float(input("Indtast liggetiden for din bolig: "))
+    #grundareal = float(input("Indtast grundarealet for din bolig: "))
+    #boligareal = float(input("Indtast boligarealet for din bolig: "))
 
+    alder = 2.0
+    liggetid = 3.0
+    grundareal = 4.0
+    boligareal = 5.0
 
+    # Print status
+    print("\nBoligtype: {}\nAlder: {}\nLiggetid: {}\nGrundareal: {}\nBoligareal: {}".format(property_type, alder,
+                                                                                          liggetid, grundareal,
+                                                                                          boligareal))
+
+    # Calculate price
+    kontantpris = (constants["a_1_max"] * constants["a_1"] + constants["b_1"]) + (constants["a_2_max"] * constants["a_2"] + constants["b_2"]) + (constants["a_3_max"] * constants["a_3"] + constants["b_3"]) + (constants["a_4_max"] * constants["a_4"] + constants["b_4"])
+    print(kontantpris)
     break

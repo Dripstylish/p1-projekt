@@ -1,6 +1,5 @@
 import math
 import pandas as pd
-import numpy as np
 
 def slope(dataframe1, dataframe2):
     """
@@ -103,7 +102,6 @@ def standardised_slopes(dataframe, variables):
 
     slopes = []
     for variable in variables:
-        cleaned_subset = dataframe.dropna()
         subset_variable = dataframe.loc[:, variable]
         slopes.append(slope(subset_variable, subset_price))
 
