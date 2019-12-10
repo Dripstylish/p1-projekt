@@ -1,5 +1,6 @@
 import math
 import pandas as pd
+import numpy as np
 
 def slope(dataframe1, dataframe2):
     """
@@ -67,7 +68,10 @@ def intersection(dataframe1, dataframe2):
     power = dataframe1.pow(2)
     mul = dataframe1.mul(dataframe2)
     n = len(dataframe1)
-    return float(((dataframe2.sum() * power.sum()) - (dataframe1.sum()) * mul.sum())/((n * power.sum()) - (dataframe1.sum()**2)))
+
+    result = (((dataframe2.sum()/2) * (power.sum()/2)) - (dataframe1.sum()/2) * (mul.sum()/2)) / ((n * power.sum()) - (dataframe1.sum() ** 2))/4
+    return result
+
 
 def standardised_intersection(dataframe, variables, a_max_variable):
     """
@@ -94,14 +98,14 @@ def standardised_slopes(dataframe, variables):
     :param variables: a list of variables
     :return: standardised slope values in a dataframe
     """
-    subset_price = dataframe.loc[:, "Kontantpris"]
-    subset_variables = dataframe.loc[:, variables]
 
-    #TODO: remove NA
+    subset_price = dataframe.loc[:, "Kontantpris"]
 
     slopes = []
-    for key in subset_variables.columns:
-        slopes.append(slope(subset_variables.loc[:, key], subset_price))
+    for variable in variables:
+        cleaned_subset = dataframe.dropna()
+        subset_variable = dataframe.loc[:, variable]
+        slopes.append(slope(subset_variable, subset_price))
 
     dataframe = pd.DataFrame(slopes, variables, ["Hældninger"])
 
@@ -161,9 +165,7 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
                 new_residual = last_residual - a_dataframes[key]
                 last_residual = new_residual
 
-            final_variables_dict["residual"] = last_residual
-
-            print(a_dataframes)
-            print(final_variables_dict)
+            clean_residual = last_residual.dropna()
+            final_variables_dict["residual"] = clean_residual
 
     return final_variables_dict, a_dataframes
