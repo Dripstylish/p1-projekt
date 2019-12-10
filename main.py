@@ -40,10 +40,15 @@ constants_villa1, a_dataframes_villa1 = mm.residual(subset_villa1, slopes_villa1
 constants_villa2, a_dataframes_villa2 = mm.residual(subset_villa2, slopes_villa2)
 constants_ejer_uden, a_dataframes_ejer_uden = mm.residual(subset_ejer_uden_grundareal, slopes_ejer_uden)
 
+#property_nr = 1
+#alder = 2.0
+#liggetid = 3.0
+#grundareal = 40.0
+#boligareal = 65.0
+
 while True:
-    #print("Boligtyper:\n1: Ejerlejlighed\n2: Rækkehus\n3. Villa1\n4. Villa2")
-    #property_nr = int(input("Indtast tallet for din boligtype: "))
-    property_nr = 1
+    print("Boligtyper:\n1: Ejerlejlighed\n2: Rækkehus\n3. Villa1\n4. Villa2")
+    property_nr = int(input("Indtast tallet for din boligtype: "))
 
     # Define property
     if property_nr == 1:
@@ -63,15 +68,10 @@ while True:
         constants = constants_villa2
         a_dataframes = a_dataframes_villa2
 
-    #alder = float(input("Indtast din boligs alder: "))
-    #liggetid = float(input("Indtast liggetiden for din bolig: "))
-    #grundareal = float(input("Indtast grundarealet for din bolig: "))
-    #boligareal = float(input("Indtast boligarealet for din bolig: "))
-
-    alder = 2.0
-    liggetid = 3.0
-    grundareal = 40.0
-    boligareal = 65.0
+    alder = float(input("Indtast din boligs alder: "))
+    liggetid = float(input("Indtast liggetiden for din bolig: "))
+    grundareal = float(input("Indtast grundarealet for din bolig: "))
+    boligareal = float(input("Indtast boligarealet for din bolig: "))
 
     variables = {"Alder": alder, "Liggetid": liggetid, "Grundareal": grundareal, "Boligareal": boligareal}
 
