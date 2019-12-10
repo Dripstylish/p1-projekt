@@ -47,7 +47,7 @@ constants_ejer_uden, a_dataframes_ejer_uden = mm.residual(subset_ejer_uden_grund
 #boligareal = 65.0
 
 while True:
-    print("Boligtyper:\n1: Ejerlejlighed\n2: Rækkehus\n3. Villa1\n4. Villa2")
+    print("Boligtyper:\n1: Ejerlejlighed\n2: Rækkehus\n3: Villa1\n4: Villa2")
     property_nr = int(input("Indtast tallet for din boligtype: "))
 
     # Define property
