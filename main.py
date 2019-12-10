@@ -57,7 +57,7 @@ while True:
         a_dataframes = a_dataframes_ejer
     elif property_nr == 2:
         property_type = "Rækkehus"
-        constants_ejer_uden = constants_rakke
+        constants = constants_rakke
         a_dataframes = a_dataframes_rakke
     elif property_nr == 3:
         property_type = "Villa1"
