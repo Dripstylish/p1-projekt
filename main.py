@@ -73,12 +73,14 @@ while True:
     grundareal = 4.0
     boligareal = 5.0
 
+    variables = {"Alder": alder, "Liggetid": liggetid, "Grundareal": grundareal, "Boligareal": boligareal}
+
     # Print status
     print("\nBoligtype: {}\nAlder: {}\nLiggetid: {}\nGrundareal: {}\nBoligareal: {}".format(property_type, alder,
                                                                                           liggetid, grundareal,
                                                                                           boligareal))
 
     # Calculate price
-    kontantpris = (constants["a_1_max"] * constants["a_1"] + constants["b_1"]) + (constants["a_2_max"] * constants["a_2"] + constants["b_2"]) + (constants["a_3_max"] * constants["a_3"] + constants["b_3"]) + (constants["a_4_max"] * constants["a_4"] + constants["b_4"])
-    print(kontantpris)
+    kontantpris = (constants["a_1_max"] * variables[constants["a_1"]] + constants["b_1"]) + (constants["a_2_max"] * variables[constants["a_2"]] + constants["b_2"]) + (constants["a_3_max"] * variables[constants["a_3"]] + constants["b_3"]) + (constants["a_4_max"] * variables[constants["a_4"]] + constants["b_4"])
+    print("Optimale Kontantpris:", kontantpris)
     break
