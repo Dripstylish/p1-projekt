@@ -61,12 +61,10 @@ constants_villa1, a_dataframes_villa1 = mm.residual(subset_villa1_train, slopes_
 constants_villa2, a_dataframes_villa2 = mm.residual(subset_villa2_train, slopes_villa2)
 
 # create scatterplots
-"""
 cp.create_scatterplots(subset_ejer_train, constants_ejer, "Ejerlejlighed")
 cp.create_scatterplots(subset_rakke_train, constants_rakke, "Rækkehus")
 cp.create_scatterplots(subset_villa1_train, constants_villa1, "Villa1")
 cp.create_scatterplots(subset_villa2_train, constants_villa2, "Villa2")
-"""
 
 # test
 print("Ejerlejlighed")
@@ -82,7 +80,7 @@ difference_list = difference_ejer + difference_rakke + difference_villa1 + diffe
 difference_list_percent = difference_ejer_percent + difference_rakke_percent + difference_villa1_percent + difference_villa2_percent
 
 print("\nI alt")
-mean = sum(difference_list) / len(difference_list)
-mean_percent = sum(difference_list_percent) / len(difference_list_percent)
+mean = mm.mean(difference_list_percent)
+mean_percent = mm.mean(difference_list_percent)
 print("Gennemsnitlig forskel: {} kr.".format(round(mean)))
 print("Procentvis Gennemsnitlig forskel: {}%".format(round(mean_percent)))
