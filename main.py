@@ -21,11 +21,12 @@ subset = subset.loc[subset["Liggetid"] < 2000]
 subset_ejer = subset.loc[subset["EjdType"] == "Ejerlejlighed"]
 subset_ejer = subset_ejer.dropna()
 subset_ejer = subset_ejer.drop("EjdType", axis=1)
+subset_ejer = subset_ejer.loc[subset_ejer["Grundareal"] < 200]
 
 subset_ejer_uden_grundareal = subset_ejer.drop("Grundareal", axis=1)
 variables_uden = ["Alder", "Boligareal", "Liggetid"]
 
-subset_ejer_train, subset_ejer_test = cp.create_test_train(subset_ejer_uden_grundareal)
+subset_ejer_train, subset_ejer_test = cp.create_test_train(subset_ejer)
 
 subset_rakke = subset.loc[subset["EjdType"] == "Raekkehus"]
 subset_rakke = subset_rakke.dropna()
@@ -48,7 +49,7 @@ subset_villa2 = subset_villa2.drop("EjdType", axis=1)
 subset_villa2_train, subset_villa2_test = cp.create_test_train(subset_villa2)
 
 # find slopes
-slopes_ejer = mm.standardised_slopes(subset_ejer_train, variables_uden)
+slopes_ejer = mm.standardised_slopes(subset_ejer_train, variables)
 slopes_rakke = mm.standardised_slopes(subset_rakke_train, variables)
 slopes_villa1 = mm.standardised_slopes(subset_villa1_train, variables)
 slopes_villa2 = mm.standardised_slopes(subset_villa2_train, variables)
@@ -60,7 +61,28 @@ constants_villa1, a_dataframes_villa1 = mm.residual(subset_villa1_train, slopes_
 constants_villa2, a_dataframes_villa2 = mm.residual(subset_villa2_train, slopes_villa2)
 
 # create scatterplots
+"""
 cp.create_scatterplots(subset_ejer_train, constants_ejer, "Ejerlejlighed")
 cp.create_scatterplots(subset_rakke_train, constants_rakke, "Rækkehus")
 cp.create_scatterplots(subset_villa1_train, constants_villa1, "Villa1")
 cp.create_scatterplots(subset_villa2_train, constants_villa2, "Villa2")
+"""
+
+# test
+print("Ejerlejlighed")
+difference_ejer, difference_ejer_percent = cp.test(subset_ejer_test, constants_ejer)
+print("Rækkehus")
+difference_rakke, difference_rakke_percent = cp.test(subset_rakke_test, constants_rakke)
+print("Villa1")
+difference_villa1, difference_villa1_percent = cp.test(subset_villa1_test, constants_villa1)
+print("Villa2")
+difference_villa2, difference_villa2_percent = cp.test(subset_villa2_test, constants_villa2)
+
+difference_list = difference_ejer + difference_rakke + difference_villa1 + difference_villa2
+difference_list_percent = difference_ejer_percent + difference_rakke_percent + difference_villa1_percent + difference_villa2_percent
+
+print("\nI alt")
+mean = sum(difference_list) / len(difference_list)
+mean_percent = sum(difference_list_percent) / len(difference_list_percent)
+print("Gennemsnitlig forskel: {} kr.".format(round(mean)))
+print("Procentvis Gennemsnitlig forskel: {}%".format(round(mean_percent)))

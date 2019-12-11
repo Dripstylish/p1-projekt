@@ -9,7 +9,7 @@ def import_csv_file(csv = csv_file_path):
     return csv_file
 
 def create_test_train(dataframe):
-    amount = int(len(dataframe)/4)
+    amount = int(len(dataframe)/6)
     subset_train = dataframe.head(int(len(dataframe) - amount))
     subset_test = dataframe.tail(amount)
     return subset_train, subset_test
@@ -29,6 +29,36 @@ def create_scatterplots(dataframe, constants, name):
     for i in range(1, 4):
         list2 = constants["dataframe_y{}".format(i)].values
         create_scatterplot_price(list2, list1, "{}_y{}".format(name, i))
+
+def test(dataframe, constants):
+    resultat = []
+    difference_list = []
+    difference_list_percent = []
+    for row in dataframe.iterrows():
+        variables = {"Alder": row[1]["Alder"], "Liggetid": row[1]["Liggetid"], "Grundareal": row[1]["Grundareal"], "Boligareal": row[1]["Boligareal"]}
+        kontantpris = (constants["a_1_max"] * variables[constants["a_1"]] + constants["b_1"]) + (
+                constants["a_2_max"] * variables[constants["a_2"]] + constants["b_2"]) + (
+                constants["a_3_max"] * variables[constants["a_3"]] + constants["b_3"]) + (
+                constants["a_4_max"] * variables[constants["a_4"]] + constants["b_4"])
+        #print("\nRigtige Kontantpris: {} kr.".format(row[1]["Kontantpris"]))
+        #print("Gættede Kontantpris: {} kr.".format(kontantpris))
+        difference = row[1]["Kontantpris"] - kontantpris
+        difference_percent = abs(kontantpris / (row[1]["Kontantpris"] / 100))
+        #print("Forskel: {} kr.".format(difference))
+        difference_list.append(difference)
+        difference_list_percent.append(difference_percent)
+        if difference == 0:
+            resultat.append(True)
+        else:
+            resultat.append(False)
+    #print("{}/{} Korrekt".format(procent_resultat.count(True), len(dataframe)))
+    percent = resultat.count(True) / len(dataframe)
+    #print("{}% Korrekt".format(percent))
+    mean = sum(difference_list) / len(difference_list)
+    mean_percent = sum(difference_list_percent) / len(difference_list_percent)
+    print("Gennemsnitlig forskel: {} kr.".format(round(mean)))
+    print("Procentvis Gennemsnitlig forskel: {}%".format(round(mean_percent)))
+    return difference_list, difference_list_percent
 
 #property_nr = 1
 #alder = 2.0
