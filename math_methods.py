@@ -152,6 +152,8 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
     new_slopes = standardised_slopes(dataframe2, variables)
     niveau2 = niveau + 1
 
+    final_variables_dict["dataframe_y{}".format(niveau)] = dataframe_y2
+
     if len(variables) >= 1:
         final_variables_dict2, a_dataframes2 = residual(dataframe2, new_slopes, niveau2)
         final_variables_dict.update(final_variables_dict2)
