@@ -27,7 +27,6 @@ def create_scatterplot_price(list1, list2, save_file):
 def create_scatterplot_residual_progression(list, save_file):
     print("Starting scatterplot", save_file)
     turns = [1, 2, 3]
-    print(turns)
     plt.title(save_file)
     plt.xlabel("Niveau")
     plt.ylabel("Residual")
@@ -44,7 +43,6 @@ def create_scatterplots(dataframe, constants, name):
         list2 = constants["dataframe_y{}".format(i)].values
         create_scatterplot_price(list2, list1, "{}_y{}".format(name, i))
         mean_residuals.append(mm.mean(list2)[0])
-    print(mean_residuals)
     create_scatterplot_residual_progression(mean_residuals, "{}_Residualer".format(name))
 
 def test(dataframe, constants):
@@ -71,7 +69,7 @@ def test(dataframe, constants):
     #print("{}/{} Korrekt".format(procent_resultat.count(True), len(dataframe)))
     percent = resultat.count(True) / len(dataframe)
     #print("{}% Korrekt".format(percent))
-    mean = mm.mean(difference_list_percent)
+    mean = mm.mean(difference_list)
     mean_percent = mm.mean(difference_list_percent)
     print("Gennemsnitlig forskel: {} kr.".format(round(mean)))
     print("Procentvis Gennemsnitlig forskel: {}%".format(round(mean_percent)))

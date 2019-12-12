@@ -80,7 +80,7 @@ difference_list = difference_ejer + difference_rakke + difference_villa1 + diffe
 difference_list_percent = difference_ejer_percent + difference_rakke_percent + difference_villa1_percent + difference_villa2_percent
 
 print("\nI alt")
-mean = mm.mean(difference_list_percent)
+mean = mm.mean(difference_list)
 mean_percent = mm.mean(difference_list_percent)
 print("Gennemsnitlig forskel: {} kr.".format(round(mean)))
 print("Procentvis Gennemsnitlig forskel: {}%".format(round(mean_percent)))
