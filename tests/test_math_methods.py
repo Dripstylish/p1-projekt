@@ -5,7 +5,8 @@ import pandas as pd
 import calculate_price as cp
 import math_methods as mm
 
-csv_file_path = "/Users/Anne/PycharmProjects/p1-projekt/home/HOME.csv"
+csv_file_path = "C:/Users/madsc/Desktop/AAU/1. Semester/Projekter/P1/GIT/p1-projekt/home/HOME.csv"
+# csv_file_path = "/Users/Anne/PycharmProjects/p1-projekt/home/HOME.csv"
 csv_file = cp.import_csv_file(csv_file_path)
 subset = csv_file.loc[:,["Kontantpris", "Alder", "Grundareal", "Boligareal", "Liggetid"]]
 subset = subset.head(11)
@@ -132,8 +133,8 @@ class TestResidual(unittest.TestCase):
                                         ["Hældninger"])
         dataframe_standardised_slopes = mm.standardisation(dataframe_slopes)
 
-        _, a_lister = mm.residual(subset, dataframe_standardised_slopes)
-        a_1 = pd.DataFrame(data=[-11120.0, -6525.0, -9427.0, -19584.0, 1213.0, -1447.0, -11845.0, -8702.0, 1213.0, -9185.0],
+        _, a_lister = mm.residual(subset, dataframe_slopes)
+        a_1 = pd.DataFrame(data=[1765701.0, 2418247.0, 2006113.0, 563644.0, 3517271.0, 3139482.0, 1662668.0, 2109146.0, 3517271.0, 2040457.0],
                            columns=["Alder"])
         test = a_1.loc[:, "Alder"]
         self.assertTrue(test.equals(a_lister["a_1"].round()))

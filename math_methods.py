@@ -169,5 +169,4 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
 
             clean_residual = last_residual.dropna()
             final_variables_dict["residual"] = clean_residual
-
     return final_variables_dict, a_dataframes
