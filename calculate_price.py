@@ -35,6 +35,16 @@ def create_scatterplot_residual_progression(list, save_file):
     plt.clf()
     print("Scatterplot complete")
 
+    """
+    plt.title("Average CG for small- and large-eared elves")
+    plt.xlabel("Ear Length")
+    plt.ylabel("GC Percentage")
+    plt.plot(plot_dict_small["earlength"], plot_dict_small["GC percentage"], "ro")
+    plt.plot(plot_dict_large["earlength"], plot_dict_large["GC percentage"], "b*")
+    plt.legend(["Small Ears", "Large Ears"], loc=4)
+    plt.savefig("GC_vs_earsize.pdf")
+    """
+
 def create_scatterplots(dataframe, constants, name):
     print("Creating scatterplots for", name)
     list1 = dataframe.loc[:, "Kontantpris"].values
