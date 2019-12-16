@@ -68,7 +68,8 @@ def intersection(dataframe1, dataframe2):
     mul = dataframe1.mul(dataframe2)
     n = len(dataframe1)
 
-    result = (((dataframe2.sum()/2) * (power.sum()/2)) - (dataframe1.sum()/2) * (mul.sum()/2)) / ((n * power.sum()) - (dataframe1.sum() ** 2))/4
+    result = (((dataframe2.sum()) * (power.sum())) - (dataframe1.sum()) * (mul.sum())) / ((n * power.sum()) - (dataframe1.sum() ** 2))
+    #result = (((dataframe2.sum()/2) * (power.sum()/2)) - (dataframe1.sum()/2) * (mul.sum()/2)) / ((n * power.sum()) - (dataframe1.sum() ** 2))/4
     return result
 
 
@@ -132,6 +133,9 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
         variables.append(key)
 
     a_max, a_max_variabel = find_max(dataframe_slopes)
+    # trække hældning for a_max_variabel ud af dataframe_slopes og overskrive a_max med den nye værdi
+    # a_max er den standardiserede hældning, når den kommer ud af find_max
+    a_max = ...
     variables.remove(a_max_variabel)
 
     b = standardised_intersection(dataframe, variables, a_max_variabel)

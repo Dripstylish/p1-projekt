@@ -109,9 +109,6 @@ class TestStandardisedIntersection(unittest.TestCase):
 
         self.assertTrue(1213.0, standardised_intersection)
 
-if __name__ == '__main__':
-    unittest.main()
-
 class TestStandardisedSlopes(unittest.TestCase):
 
     def test_find_standardised_slopes(self):
@@ -139,3 +136,11 @@ class TestResidual(unittest.TestCase):
         test = a_1.loc[:, "Alder"]
         self.assertTrue(test.equals(a_lister["a_1"].round()))
 
+if __name__ == '__main__':
+    unittest.main()
+
+def til_latex():
+    latex = subset.to_latex()
+    print(latex)
+
+til_latex()
