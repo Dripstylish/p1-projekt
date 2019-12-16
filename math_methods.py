@@ -68,19 +68,19 @@ def intersection(dataframe1, dataframe2):
     mul = dataframe1.mul(dataframe2)
     n = len(dataframe1)
 
-    result = (((dataframe2.sum()) * (power.sum())) - (dataframe1.sum()) * (mul.sum())) / ((n * power.sum()) - (dataframe1.sum() ** 2))
-    #result = (((dataframe2.sum()/2) * (power.sum()/2)) - (dataframe1.sum()/2) * (mul.sum()/2)) / ((n * power.sum()) - (dataframe1.sum() ** 2))/4
+    #result = (((dataframe2.sum()) * (power.sum())) - (dataframe1.sum()) * (mul.sum())) / ((n * power.sum()) - (dataframe1.sum() ** 2))
+    result = (((dataframe2.sum()/2) * (power.sum()/2)) - (dataframe1.sum()/2) * (mul.sum()/2)) / ((n * power.sum()) - (dataframe1.sum() ** 2))/4
     return result
 
-
+"""
 def standardised_intersection(dataframe, variables, a_max_variable):
-    """
+
     Standardises the values from a dataframe of intersections.
     :param dataframe: a dataframe containing all data
     :param variables: a list of variables
     :param a_max_variable: the maximum variable
     :return: standardised intersection values in a dataframe
-    """
+    
     dataframe_intersections = pd.DataFrame([intersection(dataframe[a_max_variable], dataframe["Kontantpris"])], [a_max_variable], ["Skæringer"])
 
     if not len(variables) <= 0:
@@ -90,6 +90,7 @@ def standardised_intersection(dataframe, variables, a_max_variable):
         return dataframe_intersections_standardised.at[a_max_variable, "Skæringer"]
     else:
         return dataframe_intersections.at[a_max_variable, "Skæringer"]
+"""
 
 def standardised_slopes(dataframe, variables):
     """
@@ -98,7 +99,6 @@ def standardised_slopes(dataframe, variables):
     :param variables: a list of variables
     :return: standardised slope values in a dataframe
     """
-
     subset_price = dataframe.loc[:, "Kontantpris"]
 
     slopes = []
@@ -132,13 +132,10 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
     for key in dataframe_slopes.index:
         variables.append(key)
 
-    a_max, a_max_variabel = find_max(dataframe_slopes)
-    # trække hældning for a_max_variabel ud af dataframe_slopes og overskrive a_max med den nye værdi
-    # a_max er den standardiserede hældning, når den kommer ud af find_max
-    a_max = ...
+    a_max, a_max_variabel = find_max(standardised_slopes(dataframe, variables))
     variables.remove(a_max_variabel)
 
-    b = standardised_intersection(dataframe, variables, a_max_variabel)
+    b = intersection(dataframe[a_max_variabel], dataframe["Kontantpris"])
 
     final_variables_dict[name_a] = a_max_variabel
     final_variables_dict[name_a_max] = a_max
@@ -153,7 +150,7 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
     dataframe_y2 = pd.DataFrame(data=dataframe.loc[:, "Kontantpris"].sub(dataframe_a), columns=["Kontantpris"])
     dataframe2 = pd.concat([dataframe_y2, dataframe.loc[:, variables]], axis=1, sort=False)
 
-    new_slopes = standardised_slopes(dataframe2, variables)
+    new_slopes = dataframe_slopes.drop(a_max_variabel, axis=0)
     niveau2 = niveau + 1
 
     final_variables_dict["dataframe_y{}".format(niveau)] = dataframe_y2

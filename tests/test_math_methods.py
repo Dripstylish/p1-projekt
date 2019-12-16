@@ -100,6 +100,7 @@ class TestIntersection(unittest.TestCase):
         intersection4 = mm.intersection(liggetid_dataframe, kontantpris_dataframe)
         self.assertEqual(2649012, round(intersection4))
 
+"""
 class TestStandardisedIntersection(unittest.TestCase):
 
     def test_find_standardisation_of_intersection(self):
@@ -108,6 +109,7 @@ class TestStandardisedIntersection(unittest.TestCase):
                                                                     "Alder")
 
         self.assertTrue(1213.0, standardised_intersection)
+"""
 
 class TestStandardisedSlopes(unittest.TestCase):
 
@@ -139,8 +141,7 @@ class TestResidual(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
+
 def til_latex():
     latex = subset.to_latex()
     print(latex)
-
-til_latex()

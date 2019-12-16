@@ -61,12 +61,10 @@ constants_villa1, a_dataframes_villa1 = mm.residual(subset_villa1_train, slopes_
 constants_villa2, a_dataframes_villa2 = mm.residual(subset_villa2_train, slopes_villa2)
 
 # create scatterplots
-"""
 cp.create_scatterplots(subset_ejer_train, constants_ejer, "Ejerlejlighed")
 cp.create_scatterplots(subset_rakke_train, constants_rakke, "Rækkehus")
 cp.create_scatterplots(subset_villa1_train, constants_villa1, "Villa1")
 cp.create_scatterplots(subset_villa2_train, constants_villa2, "Villa2")
-"""
 
 # test
 print("Ejerlejlighed")
