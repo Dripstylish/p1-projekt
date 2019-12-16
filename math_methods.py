@@ -64,12 +64,12 @@ def intersection(dataframe1, dataframe2):
     :param dataframe2: variable y
     :return: intersection as float
     """
-    power = dataframe1.pow(2)
-    mul = dataframe1.mul(dataframe2)
-    n = len(dataframe1)
+    power = dataframe1.pow(2)/2
+    mul = dataframe1.mul(dataframe2)/2
+    n = len(dataframe1)/2
 
     #result = (((dataframe2.sum()) * (power.sum())) - (dataframe1.sum()) * (mul.sum())) / ((n * power.sum()) - (dataframe1.sum() ** 2))
-    result = (((dataframe2.sum()/2) * (power.sum()/2)) - (dataframe1.sum()/2) * (mul.sum()/2)) / ((n * power.sum()) - (dataframe1.sum() ** 2))/4
+    result = (((dataframe2.sum()/2) * (power.sum())) - (dataframe1.sum()/2) * (mul.sum())) / ((n * power.sum()) - ((dataframe1.sum() ** 2)/4))
     return result
 
 """
