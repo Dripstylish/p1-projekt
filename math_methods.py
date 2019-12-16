@@ -133,6 +133,7 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
         variables.append(key)
 
     a_max, a_max_variabel = find_max(standardised_slopes(dataframe, variables))
+    a_max = dataframe_slopes.at[a_max_variabel, "Hældninger"]
     variables.remove(a_max_variabel)
 
     b = intersection(dataframe[a_max_variabel], dataframe["Kontantpris"])
