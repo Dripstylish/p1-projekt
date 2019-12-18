@@ -170,3 +170,20 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
             clean_residual = last_residual.dropna()
             final_variables_dict["residual"] = clean_residual
     return final_variables_dict, a_dataframes
+
+def slopes_as_dataframe(dataframe, variables):
+    """
+    Finds the slopes of a dataframe and standardises them
+    :param dataframe: a dataframe containing all data
+    :param variables: a list of variables
+    :return: standardised slope values in a dataframe
+    """
+    subset_price = dataframe.loc[:, "Kontantpris"]
+
+    slopes = []
+    for variable in variables:
+        subset_variable = dataframe.loc[:, variable]
+        slopes.append(slope(subset_variable, subset_price))
+
+    dataframe = pd.DataFrame(slopes, variables, ["Hældninger"])
+    return dataframe

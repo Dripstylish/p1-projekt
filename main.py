@@ -49,22 +49,26 @@ subset_villa2 = subset_villa2.drop("EjdType", axis=1)
 subset_villa2_train, subset_villa2_test = cp.create_test_train(subset_villa2)
 
 # find slopes
-slopes_ejer = mm.standardised_slopes(subset_ejer_train, variables)
-slopes_rakke = mm.standardised_slopes(subset_rakke_train, variables)
-slopes_villa1 = mm.standardised_slopes(subset_villa1_train, variables)
-slopes_villa2 = mm.standardised_slopes(subset_villa2_train, variables)
+slopes_ejer = mm.slopes_as_dataframe(subset_ejer_train, variables)
+slopes_rakke = mm.slopes_as_dataframe(subset_rakke_train, variables)
+slopes_villa1 = mm.slopes_as_dataframe(subset_villa1_train, variables)
+slopes_villa2 = mm.slopes_as_dataframe(subset_villa2_train, variables)
 
 # find residual
+print("Ejerlejlighed")
 constants_ejer, a_dataframes_ejer = mm.residual(subset_ejer_train, slopes_ejer)
+print("Rækkehus")
 constants_rakke, a_dataframes_rakke = mm.residual(subset_rakke_train, slopes_rakke)
+print("Villa1")
 constants_villa1, a_dataframes_villa1 = mm.residual(subset_villa1_train, slopes_villa1)
+print("Villa2")
 constants_villa2, a_dataframes_villa2 = mm.residual(subset_villa2_train, slopes_villa2)
 
 # create scatterplots
-cp.create_scatterplots(subset_ejer_train, constants_ejer, "Ejerlejlighed")
-cp.create_scatterplots(subset_rakke_train, constants_rakke, "Rækkehus")
-cp.create_scatterplots(subset_villa1_train, constants_villa1, "Villa1")
-cp.create_scatterplots(subset_villa2_train, constants_villa2, "Villa2")
+# cp.create_scatterplots(subset_ejer_train, constants_ejer, "Ejerlejlighed")
+# cp.create_scatterplots(subset_rakke_train, constants_rakke, "Rækkehus")
+# cp.create_scatterplots(subset_villa1_train, constants_villa1, "Villa1")
+# cp.create_scatterplots(subset_villa2_train, constants_villa2, "Villa2")
 
 # test
 print("Ejerlejlighed")
