@@ -1,6 +1,8 @@
 import calculate_price as cp
 import math_methods as mm
 
+# The Home.csv file goes into the home folder. The dataset is not available on github.
+
 # import csv file
 csv_file = cp.import_csv_file()
 
@@ -22,9 +24,6 @@ subset_ejer = subset.loc[subset["EjdType"] == "Ejerlejlighed"]
 subset_ejer = subset_ejer.dropna()
 subset_ejer = subset_ejer.drop("EjdType", axis=1)
 subset_ejer = subset_ejer.loc[subset_ejer["Grundareal"] < 200]
-
-subset_ejer_uden_grundareal = subset_ejer.drop("Grundareal", axis=1)
-variables_uden = ["Alder", "Boligareal", "Liggetid"]
 
 subset_ejer_train, subset_ejer_test = cp.create_test_train(subset_ejer)
 
@@ -63,6 +62,8 @@ print("Villa1")
 constants_villa1, a_dataframes_villa1 = mm.residual(subset_villa1_train, slopes_villa1)
 print("Villa2")
 constants_villa2, a_dataframes_villa2 = mm.residual(subset_villa2_train, slopes_villa2)
+
+# Run the commented out code below to create plots:
 
 # create scatterplots
 # cp.create_scatterplots(subset_ejer_train, constants_ejer, "Ejerlejlighed")

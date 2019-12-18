@@ -8,11 +8,13 @@ def import_csv_file(csv = csv_file_path):
     csv_file = pd.read_csv(csv, delimiter=';')
     return csv_file
 
+
 def create_test_train(dataframe):
     amount = int(len(dataframe)/6)
     subset_train = dataframe.head(int(len(dataframe) - amount))
     subset_test = dataframe.tail(amount)
     return subset_train, subset_test
+
 
 def create_scatterplot_price(list1, list2, save_file):
     print("Starting scatterplot", save_file)
@@ -23,6 +25,7 @@ def create_scatterplot_price(list1, list2, save_file):
     plt.savefig("{}.pdf".format(save_file))
     plt.clf()
     print("Scatterplot complete")
+
 
 def create_scatterplot_residual_progression(list, save_file):
     print("Starting scatterplot", save_file)
@@ -35,15 +38,6 @@ def create_scatterplot_residual_progression(list, save_file):
     plt.clf()
     print("Scatterplot complete")
 
-    """
-    plt.title("Average CG for small- and large-eared elves")
-    plt.xlabel("Ear Length")
-    plt.ylabel("GC Percentage")
-    plt.plot(plot_dict_small["earlength"], plot_dict_small["GC percentage"], "ro")
-    plt.plot(plot_dict_large["earlength"], plot_dict_large["GC percentage"], "b*")
-    plt.legend(["Small Ears", "Large Ears"], loc=4)
-    plt.savefig("GC_vs_earsize.pdf")
-    """
 
 def create_scatterplots(dataframe, constants, name):
     print("Creating scatterplots for", name)
@@ -54,6 +48,7 @@ def create_scatterplots(dataframe, constants, name):
         create_scatterplot_price(list2, list1, "{}_y{}".format(name, i))
         mean_residuals.append(mm.mean(list2)[0])
     create_scatterplot_residual_progression(mean_residuals, "{}_Residualer".format(name))
+
 
 def test(dataframe, constants):
     resultat = []
@@ -84,6 +79,8 @@ def test(dataframe, constants):
     print("Gennemsnitlig forskel: {} kr.".format(round(mean)))
     print("Procentvis Gennemsnitlig forskel: {}%".format(round(mean_percent)))
     return difference_list, difference_list_percent
+
+# Run this to type in your own house values and get an optimal price:
 
 #property_nr = 1
 #alder = 2.0

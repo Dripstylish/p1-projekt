@@ -5,8 +5,7 @@ import pandas as pd
 import calculate_price as cp
 import math_methods as mm
 
-csv_file_path = "C:/Users/madsc/Desktop/AAU/1. Semester/Projekter/P1/GIT/p1-projekt/home/HOME.csv"
-# csv_file_path = "/Users/Anne/PycharmProjects/p1-projekt/home/HOME.csv"
+csv_file_path = "/Users/Anne/PycharmProjects/p1-projekt/home/HOME.csv" # define your own direct path to the Home.csv file
 csv_file = cp.import_csv_file(csv_file_path)
 subset = csv_file.loc[:,["Kontantpris", "Alder", "Grundareal", "Boligareal", "Liggetid"]]
 subset = subset.head(11)
@@ -35,6 +34,7 @@ class TestSlope(unittest.TestCase):
         slope4 = mm.slope(liggetid_dataframe, kontantpris_dataframe)
         self.assertEqual(-2767, math.ceil(slope4))
 
+
 class TestMean(unittest.TestCase):
 
     def test_find_mean_value(self):
@@ -44,6 +44,7 @@ class TestMean(unittest.TestCase):
                   mm.slope(liggetid_dataframe, kontantpris_dataframe)]
         mean = mm.mean(slope_list)
         self.assertEqual(-5104, math.ceil(mean))
+
 
 class TestStandardDeviation(unittest.TestCase):
 
@@ -56,6 +57,7 @@ class TestStandardDeviation(unittest.TestCase):
         deviation, deviantion_minus = mm.standard_deviation(slope_list)
         self.assertEqual(121, math.ceil(deviation))
         self.assertEqual(-121, math.floor(deviantion_minus))
+
 
 class TestStandardisation(unittest.TestCase):
 
@@ -72,6 +74,7 @@ class TestStandardisation(unittest.TestCase):
         self.assertEqual(184, round(dataframe_standardised_slopes.at["Boligareal", "Hældninger"]))
         self.assertEqual(19, round(dataframe_standardised_slopes.at["Liggetid", "Hældninger"]))
 
+
 class TestFindMax(unittest.TestCase):
 
     def test_find_maximum_standardised_slope(self):
@@ -85,6 +88,7 @@ class TestFindMax(unittest.TestCase):
         a_max, a_max_variable = mm.find_max(dataframe_standardised_slopes)
         self.assertEqual(-242, round(a_max))
         self.assertEqual("Alder", a_max_variable)
+
 
 class TestIntersection(unittest.TestCase):
 
@@ -101,16 +105,6 @@ class TestIntersection(unittest.TestCase):
         intersection4 = mm.intersection(liggetid_dataframe, kontantpris_dataframe)
         self.assertEqual(2649012, round(intersection4))
 
-"""
-class TestStandardisedIntersection(unittest.TestCase):
-
-    def test_find_standardisation_of_intersection(self):
-        standardised_intersection = mm.standardised_intersection(subset,
-                                                                 ['Grundareal', 'Boligareal', 'Liggetid'],
-                                                                    "Alder")
-
-        self.assertTrue(1213.0, standardised_intersection)
-"""
 
 class TestStandardisedSlopes(unittest.TestCase):
 
@@ -131,7 +125,6 @@ class TestResidual(unittest.TestCase):
                                          mm.slope(liggetid_dataframe, kontantpris_dataframe)],
                                         ["Alder", "Grundareal", "Boligareal", "Liggetid"],
                                         ["Hældninger"])
-        dataframe_standardised_slopes = mm.standardisation(dataframe_slopes)
 
         _, a_lister = mm.residual(subset, dataframe_slopes)
         a_1 = pd.DataFrame(data=[1765701.0, 2418247.0, 2006113.0, 563644.0, 3517271.0, 3139482.0, 1662668.0, 2109146.0, 3517271.0, 2040457.0],
@@ -139,10 +132,6 @@ class TestResidual(unittest.TestCase):
         test = a_1.loc[:, "Alder"]
         self.assertTrue(test.equals(a_lister["a_1"].round()))
 
+
 if __name__ == '__main__':
     unittest.main()
-
-
-def til_latex():
-    latex = subset.to_latex()
-    print(latex)

@@ -14,6 +14,7 @@ def slope(dataframe1, dataframe2):
 
     return float((n * mul.sum() - dataframe1.sum() * dataframe2.sum()) / (n * power.sum() - (dataframe1.sum()**2)))
 
+
 def mean(list):
     """
     Finds the mean value of a list.
@@ -21,6 +22,7 @@ def mean(list):
     :return: mean value as float
     """
     return sum(list) / len(list)
+
 
 def standard_deviation(list):
     """
@@ -34,6 +36,7 @@ def standard_deviation(list):
 
     return math.sqrt(sum(values)/len(list)), -math.sqrt(sum(values)/len(list))
 
+
 def standardisation(dataframe):
     """
     Standardises the values from a dataframe.
@@ -44,6 +47,7 @@ def standardisation(dataframe):
     dataframe_sub = dataframe.sub(mean(dataframe.values))
     dataframe_div = dataframe_sub.div(std_dev)
     return dataframe_div
+
 
 def find_max(dataframe):
     """
@@ -57,6 +61,7 @@ def find_max(dataframe):
     a_max = dataframe.at[a_max_variable, "Hældninger"]
     return a_max, a_max_variable
 
+
 def intersection(dataframe1, dataframe2):
     """
     Finds the intersection between two dataframes.
@@ -68,29 +73,9 @@ def intersection(dataframe1, dataframe2):
     mul = dataframe1.mul(dataframe2)/2
     n = len(dataframe1)/2
 
-    #result = (((dataframe2.sum()) * (power.sum())) - (dataframe1.sum()) * (mul.sum())) / ((n * power.sum()) - (dataframe1.sum() ** 2))
     result = (((dataframe2.sum()/2) * (power.sum())) - (dataframe1.sum()/2) * (mul.sum())) / ((n * power.sum()) - ((dataframe1.sum() ** 2)/4))
     return result
 
-"""
-def standardised_intersection(dataframe, variables, a_max_variable):
-
-    Standardises the values from a dataframe of intersections.
-    :param dataframe: a dataframe containing all data
-    :param variables: a list of variables
-    :param a_max_variable: the maximum variable
-    :return: standardised intersection values in a dataframe
-    
-    dataframe_intersections = pd.DataFrame([intersection(dataframe[a_max_variable], dataframe["Kontantpris"])], [a_max_variable], ["Skæringer"])
-
-    if not len(variables) <= 0:
-        for variable in variables:
-            dataframe_intersections.loc[variable] = intersection(dataframe[variable], dataframe["Kontantpris"])
-            dataframe_intersections_standardised = standardisation(dataframe_intersections)
-        return dataframe_intersections_standardised.at[a_max_variable, "Skæringer"]
-    else:
-        return dataframe_intersections.at[a_max_variable, "Skæringer"]
-"""
 
 def standardised_slopes(dataframe, variables):
     """
@@ -112,6 +97,7 @@ def standardised_slopes(dataframe, variables):
         return standardisation(dataframe)
     else:
         return dataframe
+
 
 def residual(dataframe, dataframe_slopes, niveau = 1):
     """
@@ -170,6 +156,7 @@ def residual(dataframe, dataframe_slopes, niveau = 1):
             clean_residual = last_residual.dropna()
             final_variables_dict["residual"] = clean_residual
     return final_variables_dict, a_dataframes
+
 
 def slopes_as_dataframe(dataframe, variables):
     """
